@@ -6,30 +6,24 @@ public class Restaurant
     private readonly int _eatingTime;
     private bool IsOpen;
 
-    readonly IList<Philosopher> _philosophers = new List<Philosopher>();
-    readonly IList<Fork> _forks = new List<Fork>();
+    private readonly IList<Philosopher> _philosophers = new List<Philosopher>();
+    private readonly IList<Fork> _forks = new List<Fork>();
 
 
     public Restaurant(int n, int thinkingTime, int eatingTime)
     {
         _thinkingTime = thinkingTime;
         _eatingTime = eatingTime;
-        for (int i = 0; i < n; i++)
-        {
-            _philosophers.Add(new Philosopher(this));
-        }
+        for (int i = 0; i < n; i++) _philosophers.Add(new Philosopher(this));
 
-        for (int i = 0; i < n; i++)
-        {
-            _forks.Add(new Fork());
-        }
+        for (int i = 0; i < n; i++) _forks.Add(new Fork());
     }
 
     public Fork TakeFork(int index)
     {
-        if(index == _forks.Count)
+        if (index == _forks.Count)
             index = 0;
-        
+
         return _forks[index];
     }
 
@@ -43,10 +37,7 @@ public class Restaurant
 
         Console.WriteLine("Press any key to exit");
         Console.ReadLine();
-        
-        foreach (var philosopher in _philosophers)
-        {
-            philosopher.IsOpen = false;
-        }
+
+        foreach (var philosopher in _philosophers) philosopher.IsOpen = false;
     }
 }
