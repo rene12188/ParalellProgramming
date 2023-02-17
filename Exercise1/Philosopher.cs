@@ -2,6 +2,8 @@
 
 namespace Exerise1;
 
+//todo: use concurrency primitives correctly
+
 public class Philosopher
 {
     private readonly Restaurant _restaurant;
@@ -28,8 +30,19 @@ public class Philosopher
             Console.WriteLine($"{Name} is thinking");
             Thread.Sleep(RandomNumberGenerator.GetInt32(thinkingTime * 1000));
             Console.WriteLine($"{Name} finished thinking");
-            var fork1 = _restaurant.TakeFork(Index);
-            var fork2 = _restaurant.TakeFork(Index + 1);
+            Fork fork1;
+            Fork fork2;
+            if (Index % 2 == 0)
+            { 
+                fork1 = _restaurant.TakeFork(Index);
+                fork2 = _restaurant.TakeFork(Index + 1);
+            }
+            else
+            {
+                fork1 = _restaurant.TakeFork(Index + 1);
+                fork2 = _restaurant.TakeFork(Index);
+            }
+            
             Thread.Sleep(100);
             lock (fork2)
             {
