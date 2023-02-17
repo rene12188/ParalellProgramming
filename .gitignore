@@ -16,8 +16,8 @@
 [Rr]elease/
 [Rr]eleases/
 x64/
-x86/
 .idea/
+x86/
 build/
 bld/
 [Bb]in/
