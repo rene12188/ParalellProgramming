@@ -30,11 +30,12 @@ public class Philosopher
             Console.WriteLine($"{Name} finished thinking");
             var fork1 = _restaurant.TakeFork(Index);
             var fork2 = _restaurant.TakeFork(Index + 1);
+            Thread.Sleep(100);
             lock (fork2)
             {
                 fork2.UseFork(this);
 
-
+                Thread.Sleep(1000);
                 lock (fork1)
                 {
                     fork1.UseFork(this);
@@ -42,8 +43,11 @@ public class Philosopher
                     Thread.Sleep(RandomNumberGenerator.GetInt32(eatingTime * 1000));
                     _restaurant.TakeFork(Index + 1).PutDownFork();
                     _restaurant.TakeFork(Index).PutDownFork();
+                    Thread.Sleep(100);
                 }
+                Thread.Sleep(100);
             }
+            Thread.Sleep(100);
         }
     }
 }
