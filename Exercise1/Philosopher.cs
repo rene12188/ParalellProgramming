@@ -33,7 +33,7 @@ public class Philosopher
             Fork fork1;
             Fork fork2;
             if (Index % 2 == 0)
-            { 
+            {
                 fork1 = _restaurant.TakeFork(Index);
                 fork2 = _restaurant.TakeFork(Index + 1);
             }
@@ -42,25 +42,22 @@ public class Philosopher
                 fork1 = _restaurant.TakeFork(Index + 1);
                 fork2 = _restaurant.TakeFork(Index);
             }
-            
-            Thread.Sleep(100);
-            lock (fork2)
-            {
-                fork2.UseFork(this);
 
-                Thread.Sleep(1000);
-                lock (fork1)
-                {
-                    fork1.UseFork(this);
-
-                    Thread.Sleep(RandomNumberGenerator.GetInt32(eatingTime * 1000));
-                    _restaurant.TakeFork(Index + 1).PutDownFork();
-                    _restaurant.TakeFork(Index).PutDownFork();
-                    Thread.Sleep(100);
-                }
-                Thread.Sleep(100);
-            }
             Thread.Sleep(100);
+            Monitor.Enter(fork2);
+
+            fork2.UseFork(this);
+
+            Thread.Sleep(1000);
+            Monitor.Enter(fork1);
+
+            fork1.UseFork(this);
+
+            Monitor.PulseAll(fork2);
+            Monitor.PulseAll(fork1);
+            Thread.Sleep(RandomNumberGenerator.GetInt32(eatingTime * 1000));
+            _restaurant.TakeFork(Index + 1).PutDownFork();
+            _restaurant.TakeFork(Index).PutDownFork();
         }
     }
 }
