@@ -53,11 +53,12 @@ public class Philosopher
 
             fork1.UseFork(this);
 
-            Monitor.PulseAll(fork2);
-            Monitor.PulseAll(fork1);
+          
             Thread.Sleep(RandomNumberGenerator.GetInt32(eatingTime * 1000));
             _restaurant.TakeFork(Index + 1).PutDownFork();
             _restaurant.TakeFork(Index).PutDownFork();
+            Monitor.Exit(fork2);
+            Monitor.Exit(fork1);
         }
     }
 }

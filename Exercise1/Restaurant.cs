@@ -29,15 +29,27 @@ public class Restaurant
 
     public void Start()
     {
+        var threads = new List<Thread>();
         foreach (var philosopher in _philosophers)
         {
-            Thread myThread = new Thread(() => philosopher.Start(_thinkingTime, _eatingTime));
-            myThread.Start();
+            threads.Add(new Thread(() => philosopher.Start(_thinkingTime, _eatingTime)));
+            threads.Last().Start();
         }
 
         Console.WriteLine("Press any key to exit");
         Console.ReadLine();
 
-        foreach (var philosopher in _philosophers) philosopher.IsOpen = false;
+        foreach (var philosopher in _philosophers)
+        {
+            philosopher.IsOpen = false;
+        }
+        
+        foreach (var thread in threads)
+        {
+            thread.Join();
+        }
+
+       
+        
     }
 }
