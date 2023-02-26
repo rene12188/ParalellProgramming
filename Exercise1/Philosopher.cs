@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Diagnostics;
+using System.Security.Cryptography;
 
 namespace Exerise1;
 
@@ -7,6 +8,7 @@ namespace Exerise1;
 public class Philosopher
 {
     private readonly Restaurant _restaurant;
+    public readonly Stopwatch timer = new Stopwatch();
 
     private static int n;
 
@@ -30,6 +32,7 @@ public class Philosopher
             Console.WriteLine($"{Name} is thinking");
             Thread.Sleep(RandomNumberGenerator.GetInt32(thinkingTime * 1000));
             Console.WriteLine($"{Name} finished thinking");
+            timer.Start();
             Fork fork1;
             Fork fork2;
             if (Index % 2 == 0)
@@ -52,8 +55,8 @@ public class Philosopher
             Monitor.Enter(fork1);
 
             fork1.UseFork(this);
-
-          
+            timer.Stop();
+            Console.WriteLine($"\n{Name}'s waiting time: " + timer.Elapsed.TotalSeconds.ToString() + "\n");
             Thread.Sleep(RandomNumberGenerator.GetInt32(eatingTime * 1000));
             _restaurant.TakeFork(Index + 1).PutDownFork();
             _restaurant.TakeFork(Index).PutDownFork();
