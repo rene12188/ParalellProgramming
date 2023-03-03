@@ -8,7 +8,7 @@ namespace Exerise1;
 public class Philosopher
 {
     private readonly Restaurant _restaurant;
-    public readonly Stopwatch timer = new Stopwatch();
+    public readonly Stopwatch timer = new();
 
     private static int n;
 
@@ -56,7 +56,7 @@ public class Philosopher
 
             fork1.UseFork(this);
             timer.Stop();
-            Console.WriteLine($"\n{Name}'s waiting time: " + timer.Elapsed.TotalSeconds.ToString() + "\n");
+            Console.WriteLine($"\n{Name}'s waiting time: " + timer.Elapsed.TotalSeconds + "\n");
             Thread.Sleep(RandomNumberGenerator.GetInt32(eatingTime * 1000));
             _restaurant.TakeFork(Index + 1).PutDownFork();
             _restaurant.TakeFork(Index).PutDownFork();

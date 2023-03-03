@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using Project.PowerBalancer.Interfaces;
+﻿using Project.PowerBalancer.Interfaces;
+using Project.Util.Models.Import;
 
 namespace Project.PowerBalancer;
 
@@ -7,14 +7,12 @@ public class Community
 {
     private IList<IProducer> _producers;
     private IList<IConsumer> _consumers;
-    private GraphResolver _graphResolver;
+    private GraphDistanceResolver _graphDistanceResolver;
 
-    public Community(IList<IConsumer> consumers, IList<IProducer> producers, GraphResolver graphResolver)
+    public Community(ImportCommunity community,IList<IConsumer> consumers, IList<IProducer> producers, GraphDistanceResolver graphDistanceResolver)
     {
         _consumers = consumers;
         _producers = producers;
-        _graphResolver = graphResolver;
+        _graphDistanceResolver = graphDistanceResolver;
     }
-
-
 }

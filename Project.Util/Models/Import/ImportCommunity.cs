@@ -1,12 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Project.ConsoleApplication.Models;
+namespace Project.Util.Models.Import;
 
 public class ImportCommunity
 {
     public string Name { get; private set; }
 
-    private readonly List<ImportEdge> _edges = new List<ImportEdge>();
+    private readonly List<ImportEdge> _edges = new();
 
     public ReadOnlyCollection<ImportEdge> GetEdges => _edges.AsReadOnly();
 
@@ -24,15 +24,8 @@ public class ImportCommunity
 
     private void CheckConstraintsForEdges(ImportEdge edge)
     {
-        if (edge.From != Name)
-        {
-            throw new ArgumentException("Edge does not belong to this community");
-        }
+        if (edge.From != Name) throw new ArgumentException("Edge does not belong to this community");
 
-        if (_edges.Any(c => c.To == edge.To))
-
-        {
-            throw new ArgumentException("Edge already exists");
-        }
+        if (_edges.Any(c => c.To == edge.To)) throw new ArgumentException("Edge already exists");
     }
 }

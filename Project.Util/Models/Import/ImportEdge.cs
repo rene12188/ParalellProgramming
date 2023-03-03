@@ -1,4 +1,4 @@
-﻿namespace Project.ConsoleApplication.Models;
+﻿namespace Project.Util.Models.Import;
 
 public class ImportEdge
 {

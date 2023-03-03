@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Xml.Linq;
 
 namespace Exerise1;
 
@@ -11,8 +10,7 @@ public class Restaurant
 
     private readonly IList<Philosopher> _philosophers = new List<Philosopher>();
     private readonly IList<Fork> _forks = new List<Fork>();
-    public readonly Stopwatch timer = new Stopwatch();
-
+    public readonly Stopwatch timer = new();
 
 
     public Restaurant(int n, int thinkingTime, int eatingTime)
@@ -50,15 +48,11 @@ public class Restaurant
             waitingTime += philosopher.timer.Elapsed.TotalSeconds;
             philosopher.IsOpen = false;
         }
-        
-        foreach (var thread in threads)
-        {
-            thread.Join();
-        }
+
+        foreach (var thread in threads) thread.Join();
 
         timer.Stop();
-        Console.WriteLine($"Total elapsed time: " + timer.Elapsed.TotalSeconds.ToString());
-        Console.WriteLine($"Total waited time: " + waitingTime);
-
+        Console.WriteLine("Total elapsed time: " + timer.Elapsed.TotalSeconds);
+        Console.WriteLine("Total waited time: " + waitingTime);
     }
 }

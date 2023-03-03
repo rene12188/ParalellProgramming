@@ -3,7 +3,7 @@
 using Newtonsoft.Json;
 using Project.DataGenerator;
 
-var dataGenerator =  new  ImportCommunityFactory();
+var dataGenerator = new ImportCommunityFactory();
 
 DataGeneratorConfig.CreateConfig(dataGenerator);
 

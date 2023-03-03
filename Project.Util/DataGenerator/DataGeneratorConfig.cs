@@ -53,8 +53,7 @@ public class DataGeneratorConfig
         importCommunityFactory.AddEdge("Weiz", "Südoststeiermark", 0.1);
         importCommunityFactory.AddEdge("Weiz", "Hartberg-Fürstenfel", 0.1);
         importCommunityFactory.AddEdge("Weiz", "Graz-Umgebung", 0.1);
-        
+
         importCommunityFactory.AddEdge("Südoststeiermark", "Graz-Umgebung", 0.1);
     }
-    
 }
