@@ -11,7 +11,7 @@ public class Community
     private IList<BaseConsumer> _consumers;
     private GraphDistanceResolver _graphDistanceResolver;
 
-    public Community(ImportCommunity community,IList<BaseConsumer> consumers, IList<BaseProducer> producers, GraphDistanceResolver graphDistanceResolver, Clock clock)
+    public Community(ImportCommunity community, IList<BaseConsumer> consumers, IList<BaseProducer> producers, GraphDistanceResolver graphDistanceResolver, Clock clock)
     {
         _name = community.Name;
         _consumers = consumers;

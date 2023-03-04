@@ -11,16 +11,13 @@ public class SolarProducer : BaseProducer
         _clock = clock;
     }
 
-    private static float GetSunlightExposure(int seconds) 
+    private static float GetSunlightExposure(int seconds)
     {
         // Central Europe has approximately 8 hours of daylight per day, or 28,800 seconds
         const int daylightSeconds = 28800;
 
         // Ensure input is within the valid range
-        if (seconds < 0 || seconds > 86400) 
-        {
-            throw new ArgumentException("Input must be between 0 and 86400");
-        }
+        if (seconds < 0 || seconds > 86400) throw new ArgumentException("Input must be between 0 and 86400");
 
         // Calculate the proportion of the day that has passed
         float proportionOfDaylight = (float)seconds / daylightSeconds;
