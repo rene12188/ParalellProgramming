@@ -9,6 +9,8 @@ var data = File.ReadAllText("./communities.json");
 
 var communities = JsonConvert.DeserializeObject<List<ImportCommunity>>(data);
 
-var powerBalancerEngine = new PowerBalancerEngine(communities, new PowerSystemConfig());
+var powerBalancerEngine = new PowerBalancerEngine(communities!,new PowerSystemConfig(),new Clock(int.Parse(args[0])));
+
+
 
 Console.WriteLine("Hello, World!");
