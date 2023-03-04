@@ -2,6 +2,7 @@
 
 using Newtonsoft.Json;
 using Project.DataGenerator;
+using Project.Util.DataGenerator;
 
 var dataGenerator = new ImportCommunityFactory();
 

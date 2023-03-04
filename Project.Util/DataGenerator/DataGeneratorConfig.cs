@@ -1,4 +1,6 @@
-﻿namespace Project.DataGenerator;
+﻿using Project.DataGenerator;
+
+namespace Project.Util.DataGenerator;
 
 public class DataGeneratorConfig
 {
@@ -18,6 +20,7 @@ public class DataGeneratorConfig
         importCommunityFactory.AddCommunity("Südoststeiermark");
         importCommunityFactory.AddCommunity("Voitsberg");
         importCommunityFactory.AddCommunity("Weiz");
+        importCommunityFactory.AddCommunity("Externam");
 
         importCommunityFactory.AddEdge("Graz", "Graz-Umgebung", 0.1);
 
@@ -55,5 +58,6 @@ public class DataGeneratorConfig
         importCommunityFactory.AddEdge("Weiz", "Graz-Umgebung", 0.1);
 
         importCommunityFactory.AddEdge("Südoststeiermark", "Graz-Umgebung", 0.1);
+        importCommunityFactory.AddEdge("Südoststeiermark", "External", 50);
     }
 }

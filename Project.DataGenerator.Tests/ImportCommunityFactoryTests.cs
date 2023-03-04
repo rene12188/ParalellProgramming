@@ -1,3 +1,5 @@
+using Project.Util.DataGenerator;
+
 namespace Project.DataGenerator.Tests;
 
 public class ImportCommunityFactoryTests
