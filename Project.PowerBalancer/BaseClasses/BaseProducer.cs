@@ -1,6 +1,5 @@
 ﻿namespace Project.PowerBalancer.BaseClasses;
 
-
 public abstract class BaseProducer
 {
     public double MaxPowerProduction { get; private set; }
