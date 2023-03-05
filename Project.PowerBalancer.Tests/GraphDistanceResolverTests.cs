@@ -17,11 +17,12 @@ public class GraphDistanceResolverTests
         importCommunityFactory.AddEdge("C1", "C2", 1);
 
         //Act
-        var result = new GraphDistanceResolver(importCommunityFactory.GetCommunities()).GetDistance("C1", "C2");
+        var result = new GraphDistanceResolver(importCommunityFactory.GetCommunities()).GetDistancesFromSource("C1");
 
         //Assert
 
-        Assert.That(result, Is.EqualTo(1.0));
+        Assert.That(result.Count(), Is.EqualTo(1));
+        Assert.That(result.FirstOrDefault().Value, Is.EqualTo(1.0));
     }
 
     [Test]
@@ -38,10 +39,12 @@ public class GraphDistanceResolverTests
         importCommunityFactory.AddEdge("C2", "C3", 1);
 
         //Act
-        var result = new GraphDistanceResolver(importCommunityFactory.GetCommunities()).GetDistance("C1", "C3");
+        var result = new GraphDistanceResolver(importCommunityFactory.GetCommunities()).GetDistancesFromSource("C1");
 
         //Assert
 
-        Assert.That(result, Is.EqualTo(2.0));
+        Assert.That(result.Count(), Is.EqualTo(2));
+        Assert.That(result["C2"], Is.EqualTo(1.0));
+        Assert.That(result["C3"], Is.EqualTo(2.0));
     }
 }

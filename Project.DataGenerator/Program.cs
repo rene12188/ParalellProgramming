@@ -8,7 +8,5 @@ var dataGenerator = new ImportCommunityFactory();
 
 DataGeneratorConfig.CreateConfig(dataGenerator);
 
-dataGenerator.GetCommunities();
-
 var jsonString = JsonConvert.SerializeObject(dataGenerator.GetCommunities());
 File.WriteAllText("../../../../Project.ConsoleApplication/communities.json", jsonString);

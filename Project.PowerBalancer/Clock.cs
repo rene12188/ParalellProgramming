@@ -6,12 +6,22 @@ public class Clock
 
     public int _time { get; private set; }
 
+    public bool IsActive = true;
+
     public Clock(int sleepTime)
     {
         _sleepTime = sleepTime;
     }
+    
+    public void Start()
+    {
+        while (IsActive)
+        {
+            Tick();
+        }
+    }
 
-    public void Tick()
+    private void Tick()
     {
         Thread.Sleep(_sleepTime);
 

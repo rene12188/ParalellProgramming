@@ -17,7 +17,7 @@ public class ImportCommunityFactoryTests
         //Assert
         Assert.Multiple(() =>
         {
-            Assert.That(result.Count, Is.EqualTo(13));
+            Assert.That(result.Count, Is.EqualTo(14));
             Assert.That(result.Single(c => c.Name == "Bruck-Mürzzuschlag").GetEdges.Count, Is.EqualTo(4));
             Assert.That(result.Single(c => c.Name == "Deutschlandsberg").GetEdges.Count, Is.EqualTo(3));
             Assert.That(result.Single(c => c.Name == "Graz").GetEdges.Count, Is.EqualTo(1));
@@ -28,7 +28,7 @@ public class ImportCommunityFactoryTests
             Assert.That(result.Single(c => c.Name == "Liezen").GetEdges.Count, Is.EqualTo(4));
             Assert.That(result.Single(c => c.Name == "Murau").GetEdges.Count, Is.EqualTo(2));
             Assert.That(result.Single(c => c.Name == "Murtal").GetEdges.Count, Is.EqualTo(5));
-            Assert.That(result.Single(c => c.Name == "Südoststeiermark").GetEdges.Count, Is.EqualTo(4));
+            Assert.That(result.Single(c => c.Name == "Südoststeiermark").GetEdges.Count, Is.EqualTo(5));
             Assert.That(result.Single(c => c.Name == "Voitsberg").GetEdges.Count, Is.EqualTo(3));
             Assert.That(result.Single(c => c.Name == "Weiz").GetEdges.Count, Is.EqualTo(4));
         });

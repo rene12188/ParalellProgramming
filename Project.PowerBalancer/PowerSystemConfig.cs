@@ -11,19 +11,21 @@ public class PowerSystemConfig
 
     public PowerSystemConfig(Clock clock)
     {
-        _consumers.Add("Bruck-Mürzzuschlag", new List<BaseConsumer> { new ConstantConsumer(42116 * 0.000013) });
-        _consumers.Add("Deutschlandsberg", new List<BaseConsumer> { new ConstantConsumer(32217 * 0.000013) });
-        _consumers.Add("Graz", new List<BaseConsumer> { new ConstantConsumer(298139 * 0.000013) });
-        _consumers.Add("Graz-Umgebung", new List<BaseConsumer> { new ConstantConsumer(101974 * 0.000013) });
-        _consumers.Add("Hartberg-Fürstenfel", new List<BaseConsumer> { new ConstantConsumer(70000 * 0.000013) });
-        _consumers.Add("Leibnitz", new List<BaseConsumer> { new ConstantConsumer(48321 * 0.000013) });
-        _consumers.Add("Leoben", new List<BaseConsumer> { new ConstantConsumer(5700013 * 0.000013) });
-        _consumers.Add("Liezen", new List<BaseConsumer> { new ConstantConsumer(62498 * 0.000013) });
-        _consumers.Add("Murau", new List<BaseConsumer> { new ConstantConsumer(26143 * 0.000013) });
-        _consumers.Add("Murtal", new List<BaseConsumer> { new ConstantConsumer(42116 * 0.000013) });
-        _consumers.Add("Südoststeiermark", new List<BaseConsumer> { new ConstantConsumer(80000 * 0.000013) });
-        _consumers.Add("Voitsberg", new List<BaseConsumer> { new ConstantConsumer(9800 * 0.000013) });
-        _consumers.Add("Weiz", new List<BaseConsumer> { new ConstantConsumer(9000 * 0.000013) });
+        _consumers.Add("Bruck-Mürzzuschlag", new List<BaseConsumer> { new ConstantConsumer(42116 * 0.000019) });
+        _consumers.Add("Deutschlandsberg", new List<BaseConsumer> { new ConstantConsumer(92217 * 0.000019) });
+        _consumers.Add("Graz", new List<BaseConsumer> { new ConstantConsumer(298199 * 0.000019) });
+        _consumers.Add("Graz-Umgebung", new List<BaseConsumer> { new ConstantConsumer(101974 * 0.000019) });
+        _consumers.Add("Hartberg-Fürstenfel", new List<BaseConsumer> { new ConstantConsumer(70000 * 0.000019) });
+        _consumers.Add("Leibnitz", new List<BaseConsumer> { new ConstantConsumer(48921 * 0.000019) });
+        _consumers.Add("Leoben", new List<BaseConsumer> { new ConstantConsumer(5700019 * 0.000019) });
+        _consumers.Add("Liezen", new List<BaseConsumer> { new ConstantConsumer(62498 * 0.000019) });
+        _consumers.Add("Murau", new List<BaseConsumer> { new ConstantConsumer(26149 * 0.000019) });
+        _consumers.Add("Murtal", new List<BaseConsumer> { new ConstantConsumer(42116 * 0.000019) });
+        _consumers.Add("Südoststeiermark", new List<BaseConsumer> { new ConstantConsumer(80000 * 0.000019) });
+        _consumers.Add("Voitsberg", new List<BaseConsumer> { new ConstantConsumer(9800 * 0.000019) });
+        _consumers.Add("Weiz", new List<BaseConsumer> { new ConstantConsumer(9000 * 0.000019) });
+        _consumers.Add("External", new List<BaseConsumer>());
+
         Console.WriteLine($"Total Consumption {_consumers.Sum(s => s.Value.Sum(m => m.GetPowerConsumption()))} kwh per Second");
 
         _producers.Add("Bruck-Mürzzuschlag", new List<BaseProducer> { new ConstantProducer(33.8) });
@@ -39,17 +41,26 @@ public class PowerSystemConfig
         _producers.Add("Südoststeiermark", new List<BaseProducer> { new ConstantProducer(0.5) });
         _producers.Add("Voitsberg", new List<BaseProducer> { new ConstantProducer(0.8) });
         _producers.Add("Weiz", new List<BaseProducer> { new ConstantProducer(6.0), new SolarProducer(0.2, clock) });
+        _producers.Add("External", new List<BaseProducer> { new ConstantProducer(100) });
         Console.WriteLine($"Total Consumption {_producers.Sum(s => s.Value.Sum(m => m.MaxPowerProduction))} kwh per Second");
     }
 
 
-    public IList<BaseConsumer> GetProducer(string importCommunityName)
+    public IList<BaseProducer> GetProducer(string importCommunityName)
     {
-        throw new NotImplementedException();
+        if(_producers.TryGetValue(importCommunityName, out var producers));
+        {
+            return producers.ToList();
+        }
+        return null;
     }
 
-    public IList<BaseProducer> GetConsumer(string importCommunityName)
+    public IList<BaseConsumer> GetConsumer(string importCommunityName)
     {
-        throw new NotImplementedException();
+        if(_consumers.TryGetValue(importCommunityName, out var comsumers));
+        {
+            return comsumers;
+        }
+        throw new ArgumentException("Argument is not valid");
     }
 }

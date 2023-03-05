@@ -20,7 +20,7 @@ public class DataGeneratorConfig
         importCommunityFactory.AddCommunity("Südoststeiermark");
         importCommunityFactory.AddCommunity("Voitsberg");
         importCommunityFactory.AddCommunity("Weiz");
-        importCommunityFactory.AddCommunity("Externam");
+        importCommunityFactory.AddCommunity("External");
 
         importCommunityFactory.AddEdge("Graz", "Graz-Umgebung", 0.1);
 

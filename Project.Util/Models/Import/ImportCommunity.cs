@@ -6,9 +6,8 @@ public class ImportCommunity
 {
     public string Name { get; private set; }
 
-    private readonly List<ImportEdge> _edges = new();
-
-    public ReadOnlyCollection<ImportEdge> GetEdges => _edges.AsReadOnly();
+    public readonly List<ImportEdge> Edges = new();
+    
 
     public ImportCommunity(string name)
     {
@@ -18,14 +17,13 @@ public class ImportCommunity
     public void AddEdge(ImportEdge edge)
     {
         CheckConstraintsForEdges(edge);
-
-        _edges.Add(edge);
+        Edges.Add(edge);
     }
 
     private void CheckConstraintsForEdges(ImportEdge edge)
     {
         if (edge.From != Name) throw new ArgumentException("Edge does not belong to this community");
 
-        if (_edges.Any(c => c.To == edge.To)) throw new ArgumentException("Edge already exists");
+        if (Edges.Any(c => c.To == edge.To)) throw new ArgumentException("Edge already exists");
     }
 }
