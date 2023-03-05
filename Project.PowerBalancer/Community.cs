@@ -86,6 +86,7 @@ public class Community
 
     private KeyValuePair<Community, double>? BuyPower(Community community, double amount)
     {
+        amount = Math.Abs(amount);
         if (PowerAvailable == 0)
             return null;
         if (community == this)
