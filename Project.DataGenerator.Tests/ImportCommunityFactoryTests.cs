@@ -18,19 +18,19 @@ public class ImportCommunityFactoryTests
         Assert.Multiple(() =>
         {
             Assert.That(result.Count, Is.EqualTo(14));
-            Assert.That(result.Single(c => c.Name == "Bruck-Mürzzuschlag").GetEdges.Count, Is.EqualTo(4));
-            Assert.That(result.Single(c => c.Name == "Deutschlandsberg").GetEdges.Count, Is.EqualTo(3));
-            Assert.That(result.Single(c => c.Name == "Graz").GetEdges.Count, Is.EqualTo(1));
-            Assert.That(result.Single(c => c.Name == "Graz-Umgebung").GetEdges.Count, Is.EqualTo(9));
-            Assert.That(result.Single(c => c.Name == "Hartberg-Fürstenfel").GetEdges.Count, Is.EqualTo(2));
-            Assert.That(result.Single(c => c.Name == "Leibnitz").GetEdges.Count, Is.EqualTo(3));
-            Assert.That(result.Single(c => c.Name == "Leoben").GetEdges.Count, Is.EqualTo(4));
-            Assert.That(result.Single(c => c.Name == "Liezen").GetEdges.Count, Is.EqualTo(4));
-            Assert.That(result.Single(c => c.Name == "Murau").GetEdges.Count, Is.EqualTo(2));
-            Assert.That(result.Single(c => c.Name == "Murtal").GetEdges.Count, Is.EqualTo(5));
-            Assert.That(result.Single(c => c.Name == "Südoststeiermark").GetEdges.Count, Is.EqualTo(5));
-            Assert.That(result.Single(c => c.Name == "Voitsberg").GetEdges.Count, Is.EqualTo(3));
-            Assert.That(result.Single(c => c.Name == "Weiz").GetEdges.Count, Is.EqualTo(4));
+            Assert.That(result.Single(c => c.Name == "Bruck-Mürzzuschlag").Edges.Count, Is.EqualTo(4));
+            Assert.That(result.Single(c => c.Name == "Deutschlandsberg").Edges.Count, Is.EqualTo(3));
+            Assert.That(result.Single(c => c.Name == "Graz").Edges.Count, Is.EqualTo(1));
+            Assert.That(result.Single(c => c.Name == "Graz-Umgebung").Edges.Count, Is.EqualTo(9));
+            Assert.That(result.Single(c => c.Name == "Hartberg-Fürstenfel").Edges.Count, Is.EqualTo(2));
+            Assert.That(result.Single(c => c.Name == "Leibnitz").Edges.Count, Is.EqualTo(3));
+            Assert.That(result.Single(c => c.Name == "Leoben").Edges.Count, Is.EqualTo(4));
+            Assert.That(result.Single(c => c.Name == "Liezen").Edges.Count, Is.EqualTo(4));
+            Assert.That(result.Single(c => c.Name == "Murau").Edges.Count, Is.EqualTo(2));
+            Assert.That(result.Single(c => c.Name == "Murtal").Edges.Count, Is.EqualTo(5));
+            Assert.That(result.Single(c => c.Name == "Südoststeiermark").Edges.Count, Is.EqualTo(5));
+            Assert.That(result.Single(c => c.Name == "Voitsberg").Edges.Count, Is.EqualTo(3));
+            Assert.That(result.Single(c => c.Name == "Weiz").Edges.Count, Is.EqualTo(4));
         });
     }
 }

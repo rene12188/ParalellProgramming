@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Runtime.InteropServices;
 using Project.PowerBalancer.BaseClasses;
 using Project.Util.Models.Import;
 
@@ -8,18 +7,18 @@ namespace Project.PowerBalancer;
 public class Community
 {
     public string Name { get; }
-    private IList<BaseProducer> _producers;
+    private readonly IList<BaseProducer> _producers;
+    private readonly IList<BaseConsumer> _consumers;
     private readonly Clock _clock;
-    private IList<BaseConsumer> _consumers;
+
     private readonly GraphDistanceResolver _graphDistanceResolver;
     public bool IsActive = true;
 
 
-    public double PowerAvailable => Math.Max(0, GetCurrentPower());
-    public double PowerNeeded => Math.Min(0, GetCurrentPower());
+    private double PowerAvailable => Math.Max(0, GetCurrentPower());
+    private double PowerNeeded => Math.Min(0, GetCurrentPower());
     public double CurrentPower => GetCurrentPower();
     private bool HasPowerAvailable => CurrentPower > 0;
-
     private ConcurrentDictionary<Community, double> _powerBought = new();
     private ConcurrentDictionary<Community, double> _powerSold = new();
     private Dictionary<string, double> _distances;
@@ -42,25 +41,30 @@ public class Community
     {
         while (IsActive)
             if (HasPowerAvailable)
-            {
                 RemoveUnneededBoughtEnergy();
-            }
             else
+                GetPowerFromDifferentCommunity();
+    }
+
+    private void GetPowerFromDifferentCommunity()
+    {
+        for (int i = 0; i < _distances.Count() && PowerNeeded < 0; i++)
+        {
+            var community = _graphDistanceResolver.GetCommunity(_distances.ElementAt(i).Key);
+            if (community == null)
             {
-                for (int i = 0; i < _distances.Count() && PowerNeeded < 0; i++)
-                {
-                    var community = _graphDistanceResolver.GetCommunity(_distances.ElementAt(i).Key);
-                    Monitor.Enter(community);
-                    var receipt = community.BuyPower(this, PowerNeeded);
-                    if (receipt != null)
-                    {
-                        _powerBought.TryRemove(receipt.Value.Key, out var _);
-                        _powerBought.TryAdd(receipt.Value.Key, receipt.Value.Value);
-                    }
-                    
-                    Monitor.Exit(community);
-                }
+                continue;
             }
+            Monitor.Enter(community);
+            var receipt = community.BuyPower(this, PowerNeeded);
+            if (receipt != null)
+            {
+                _powerBought.TryRemove(receipt.Value.Key, out var _);
+                _powerBought.TryAdd(receipt.Value.Key, receipt.Value.Value);
+            }
+
+            Monitor.Exit(community);
+        }
     }
 
     private void RemoveUnneededBoughtEnergy()
@@ -89,10 +93,7 @@ public class Community
         amount = Math.Abs(amount);
         if (PowerAvailable == 0)
             return null;
-        if (community == this)
-        {
-            return null;
-        }
+        if (community == this) return null;
 
         _powerSold.TryRemove(community, out var powerAvailable);
 
@@ -102,19 +103,14 @@ public class Community
             _powerSold.TryAdd(community, PowerAvailable);
             return new KeyValuePair<Community, double>(this, PowerAvailable);
         }
-        else
-        {
-            _powerSold.TryAdd(community, amount);
-            return new KeyValuePair<Community, double>(this, amount);
-        }
+
+        _powerSold.TryAdd(community, amount);
+        return new KeyValuePair<Community, double>(this, amount);
     }
 
     private void StopBuyingPower(Community community, double amount)
     {
-        if (community == this)
-        {
-            return;
-        }
+        if (community == this) return;
 
         if (_powerSold.TryGetValue(community, out var value))
         {

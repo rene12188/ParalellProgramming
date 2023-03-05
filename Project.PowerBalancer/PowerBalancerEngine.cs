@@ -26,7 +26,6 @@ public class PowerBalancerEngine
 
     public void Start()
     {
-       
         var clockThread = new Task(_clock.Start);
         var visualThread = new Task(Visualize);
         clockThread.Start();
@@ -35,13 +34,10 @@ public class PowerBalancerEngine
 
         Console.ReadLine();
         isActive = false;
-        foreach (var community in _communities)
-        {
-            community.IsActive = false;
-        }
+        foreach (var community in _communities) community.IsActive = false;
         _clock.IsActive = false;
     }
-    
+
     public void Visualize()
     {
         while (isActive)
@@ -51,18 +47,11 @@ public class PowerBalancerEngine
             {
                 Console.WriteLine(community.Name);
                 Console.WriteLine($"Current power: {community.CurrentPower}");
-                foreach (var powerBought in community.PowerBoughtReport)
-                {
-                    Console.WriteLine($"Power bought from {powerBought.Item1}: {powerBought.Item2}");
-                }  
-                
-                foreach (var powerSold in community.PowerSoldReport)
-                {
-                    Console.WriteLine($"Power bought from {powerSold.Item1}: {powerSold.Item2}");
-                }
+                foreach (var powerBought in community.PowerBoughtReport) Console.WriteLine($"Power bought from {powerBought.Item1}: {powerBought.Item2}");
+
+                foreach (var powerSold in community.PowerSoldReport) Console.WriteLine($"Power bought from {powerSold.Item1}: {powerSold.Item2}");
                 Console.WriteLine();
             }
         }
-       
     }
 }

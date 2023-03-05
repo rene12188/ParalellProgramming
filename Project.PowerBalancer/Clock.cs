@@ -12,13 +12,10 @@ public class Clock
     {
         _sleepTime = sleepTime;
     }
-    
+
     public void Start()
     {
-        while (IsActive)
-        {
-            Tick();
-        }
+        while (IsActive) Tick();
     }
 
     private void Tick()

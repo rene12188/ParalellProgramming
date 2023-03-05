@@ -48,7 +48,7 @@ public class PowerSystemConfig
 
     public IList<BaseProducer> GetProducer(string importCommunityName)
     {
-        if(_producers.TryGetValue(importCommunityName, out var producers));
+        if (_producers.TryGetValue(importCommunityName, out var producers)) ;
         {
             return producers.ToList();
         }
@@ -57,7 +57,7 @@ public class PowerSystemConfig
 
     public IList<BaseConsumer> GetConsumer(string importCommunityName)
     {
-        if(_consumers.TryGetValue(importCommunityName, out var comsumers));
+        if (_consumers.TryGetValue(importCommunityName, out var comsumers)) ;
         {
             return comsumers;
         }
