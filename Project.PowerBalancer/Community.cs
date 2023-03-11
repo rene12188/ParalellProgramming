@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using Project.PowerBalancer.BaseClasses;
 using Project.PowerBalancer.Interfaces;
-using Project.PowerBalancer.Modules.Clocks;
 using Project.Util.Models.Import;
 using Serilog;
 
@@ -28,7 +27,7 @@ public class Community
 
     public IList<Tuple<string, double>> PowerBoughtReport => _powerBought.Select(s => new Tuple<string, double>(s.Key.Name, s.Value)).ToList();
     public IList<Tuple<string, double>> PowerSoldReport => _powerSold.Select(s => new Tuple<string, double>(s.Key.Name, s.Value)).ToList();
-    public bool IsDone { get; private set; } = false;
+    public bool IsDone { get; private set; }
 
     public Community(ImportCommunity community, IList<BaseConsumer> consumers, IList<BaseProducer> producers, GraphDistanceResolver graphDistanceResolver, IClock clock)
     {
@@ -55,10 +54,7 @@ public class Community
             Log.Information($"{Name}:Waiting for other communities to finish");
             while (IsDone)
             {
-                if (isSequential)
-                {
-                    return;
-                }
+                if (isSequential) return;
 
                 Thread.Sleep(500);
             }
@@ -75,10 +71,7 @@ public class Community
         for (int i = 0; i < _distances.Count() && PowerNeeded < 0; i++)
         {
             var community = _graphDistanceResolver.GetCommunity(_distances.ElementAt(i).Key);
-            if (community == null)
-            {
-                continue;
-            }
+            if (community == null) continue;
 
             Monitor.Enter(community);
             var receipt = community.BuyPower(this, PowerNeeded);

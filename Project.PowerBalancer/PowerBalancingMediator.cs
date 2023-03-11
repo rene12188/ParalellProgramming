@@ -1,5 +1,4 @@
 ﻿using Project.PowerBalancer.Interfaces;
-using Project.PowerBalancer.Modules.Clocks;
 using Serilog;
 
 namespace Project.PowerBalancer;
@@ -7,19 +6,20 @@ namespace Project.PowerBalancer;
 public class PowerBalancingMediator
 {
     private readonly IList<Community> _communities = new List<Community>();
+    private readonly IList<IReporter> _reporters = new List<IReporter>();
 
-
-    public bool AllDone()
+    public void AddReporter(IReporter reporter)
     {
-        return _communities.All(c => c.IsDone);
+        _reporters.Add(reporter);
     }
+
+
+    public bool IsAllDone => _communities.All(c => c.IsDone);
+
 
     public void StartNextCycle()
     {
-        foreach (var community in _communities)
-        {
-            community.SetUnDone();
-        }
+        foreach (var community in _communities) community.SetUnDone();
     }
 
     public void AddCommunity(Community community)
@@ -30,10 +30,7 @@ public class PowerBalancingMediator
     public void StopSimulation()
     {
         Visualize();
-        foreach (var community in _communities)
-        {
-            community.IsActive = false;
-        }
+        foreach (var community in _communities) community.IsActive = false;
     }
 
     public void Visualize()

@@ -10,7 +10,6 @@ public class RealisticPowerSystemConfig : BasePowerSystemConfig
 {
     public RealisticPowerSystemConfig(IClock timeClock)
     {
-   
         Consumers.Add("Bruck-Mürzzuschlag", new List<BaseConsumer> { new ConstantConsumer(42116 * 0.000019) });
         Consumers.Add("Deutschlandsberg", new List<BaseConsumer> { new ConstantConsumer(92217 * 0.000019) });
         Consumers.Add("Graz", new List<BaseConsumer> { new ConstantConsumer(298199 * 0.000019) });
@@ -44,5 +43,4 @@ public class RealisticPowerSystemConfig : BasePowerSystemConfig
         Producers.Add("External", new List<BaseProducer> { new ConstantProducer(100) });
         Log.Information($"Total Consumption {Producers.Sum(s => s.Value.Sum(m => m.MaxPowerProduction))} kwh per Second");
     }
-
 }

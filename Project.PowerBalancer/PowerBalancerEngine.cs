@@ -46,16 +46,13 @@ public class PowerBalancerEngine
             newThread.Start();
             communityThreads.Add(newThread);
         }
-        
+
         while (_waitingClock.IsActive)
         {
         }
 
         stopwatch.Stop();
-        foreach (var thread in communityThreads)
-        {
-            thread.Join();
-        }
+        foreach (var thread in communityThreads) thread.Join();
         Log.Information("Time for Complete Execution: " + stopwatch.ElapsedMilliseconds);
         return stopwatch.ElapsedMilliseconds;
     }
@@ -66,16 +63,12 @@ public class PowerBalancerEngine
         stopwatch.Start();
         var clockThread = new Task(_waitingClock.Start);
         clockThread.Start();
-      
+
 
         while (_waitingClock.IsActive)
         {
             Thread.Sleep(1000);
-            foreach (var community in _communities)
-            {
-                community.StartBalancingProcess(true);
-            }
-           
+            foreach (var community in _communities) community.StartBalancingProcess(true);
         }
 
         stopwatch.Stop();
@@ -83,6 +76,4 @@ public class PowerBalancerEngine
         Log.Information("Time for Complete Execution: " + stopwatch.ElapsedMilliseconds);
         return stopwatch.ElapsedMilliseconds;
     }
-
-   
 }

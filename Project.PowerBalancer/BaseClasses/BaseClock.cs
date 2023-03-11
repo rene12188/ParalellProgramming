@@ -2,11 +2,12 @@
 
 namespace Project.PowerBalancer.BaseClasses;
 
-public  abstract class BaseClock : IClock
+public abstract class BaseClock : IClock
 {
     private bool _isActive = true;
     public int Time { get; protected set; }
     public abstract void Start();
+
     public void Deactivate()
     {
         _isActive = false;

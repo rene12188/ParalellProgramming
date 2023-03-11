@@ -1,6 +1,5 @@
 ﻿using Project.PowerBalancer.BaseClasses;
 using Project.PowerBalancer.Interfaces;
-using Project.PowerBalancer.Modules.Clocks;
 
 namespace Project.PowerBalancer.PowerComponents.Producers;
 

@@ -1,5 +1,4 @@
 ﻿using Project.PowerBalancer.BaseClasses;
-using Project.PowerBalancer.Interfaces;
 
 namespace Project.PowerBalancer.Modules.Clocks;
 
@@ -32,7 +31,7 @@ public class WaitingClock : BaseClock
     {
         while (IsActive)
         {
-            if (Mediator.AllDone())
+            if (Mediator.IsAllDone)
             {
                 Tick();
                 if (_stopTime.HasValue && Time > _stopTime.Value)

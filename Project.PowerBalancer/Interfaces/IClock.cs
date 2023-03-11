@@ -2,7 +2,7 @@
 
 public interface IClock
 {
-    public int Time { get;  }
+    public int Time { get; }
     void Start();
     void Deactivate();
 }
