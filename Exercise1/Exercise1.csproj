@@ -8,4 +8,8 @@
         <RootNamespace>Exerise1</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Serilog" Version="3.0.0-dev-01921" />
+    </ItemGroup>
+
 </Project>

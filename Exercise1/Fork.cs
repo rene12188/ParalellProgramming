@@ -1,4 +1,6 @@
-﻿namespace Exerise1;
+﻿using Serilog;
+
+namespace Exerise1;
 
 public class Fork
 {
@@ -16,7 +18,7 @@ public class Fork
     public void UseFork(Philosopher user)
     {
         UsedBy = user;
-        Console.WriteLine($"{Name} is used by {UsedBy.Name}");
+        Log.Information($"{Name} is used by {UsedBy.Name}");
     }
 
 

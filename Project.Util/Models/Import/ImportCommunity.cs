@@ -22,6 +22,7 @@ public class ImportCommunity
 
     private void CheckConstraintsForEdges(ImportEdge edge)
     {
+        if(edge.To == edge.From) throw new ArgumentException("Edge cannot be from and to the same community");
         if (edge.From != Name) throw new ArgumentException("Edge does not belong to this community");
 
         if (Edges.Any(c => c.To == edge.To)) throw new ArgumentException("Edge already exists");

@@ -3,13 +3,32 @@
 
 using Newtonsoft.Json;
 using Project.PowerBalancer;
+using Project.PowerBalancer.Modules.Clocks;
+using Project.PowerBalancer.Modules.PowerSystemConfig;
 using Project.Util.Models.Import;
+using Serilog;
 
-var data = File.ReadAllText("./communities.json");
+long  StartBalancingConcurrent(string s)
+{
+    var communities = JsonConvert.DeserializeObject<List<ImportCommunity>>(s).OrderBy(s => s.Name).ToList();
+    var clock = new WaitingClock(new PowerBalancingMediator(), 40000, 40010);
+    var powerBalancerEngine1 = new PowerBalancerEngine(communities, new FictitiousPowerSystemConfig(clock), clock);
+    return powerBalancerEngine1.StartConcurrent();
+}
 
-var communities = JsonConvert.DeserializeObject<List<ImportCommunity>>(data);
-var clock = new Clock(int.Parse(args[0]));
-var powerBalancerEngine = new PowerBalancerEngine(communities!, new PowerSystemConfig(clock), clock);
-powerBalancerEngine.Start();
+long  StartBalancingSequential(string s)
+{
+    var communities = JsonConvert.DeserializeObject<List<ImportCommunity>>(s);
+    var clock = new WaitingClock(new PowerBalancingMediator(), 40000, 40010);
+    var powerBalancerEngine1 = new PowerBalancerEngine(communities!, new FictitiousPowerSystemConfig(clock), clock);
+    return powerBalancerEngine1.StartSequential();
+}
 
-Console.WriteLine("Hello, World!");
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateLogger();
+var data = File.ReadAllText("./communitiesFictitious.json");
+
+var concurrent = StartBalancingConcurrent(data);
+var sequential =StartBalancingSequential(data);
+Log.Information($"Sequential: {sequential}ms vs Concurrent: {concurrent}ms");

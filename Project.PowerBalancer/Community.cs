@@ -1,6 +1,9 @@
 ﻿using System.Collections.Concurrent;
 using Project.PowerBalancer.BaseClasses;
+using Project.PowerBalancer.Interfaces;
+using Project.PowerBalancer.Modules.Clocks;
 using Project.Util.Models.Import;
+using Serilog;
 
 namespace Project.PowerBalancer;
 
@@ -9,7 +12,7 @@ public class Community
     public string Name { get; }
     private readonly IList<BaseProducer> _producers;
     private readonly IList<BaseConsumer> _consumers;
-    private readonly Clock _clock;
+    private readonly IClock _clock;
 
     private readonly GraphDistanceResolver _graphDistanceResolver;
     public bool IsActive = true;
@@ -25,8 +28,9 @@ public class Community
 
     public IList<Tuple<string, double>> PowerBoughtReport => _powerBought.Select(s => new Tuple<string, double>(s.Key.Name, s.Value)).ToList();
     public IList<Tuple<string, double>> PowerSoldReport => _powerSold.Select(s => new Tuple<string, double>(s.Key.Name, s.Value)).ToList();
+    public bool IsDone { get; private set; } = false;
 
-    public Community(ImportCommunity community, IList<BaseConsumer> consumers, IList<BaseProducer> producers, GraphDistanceResolver graphDistanceResolver, Clock clock)
+    public Community(ImportCommunity community, IList<BaseConsumer> consumers, IList<BaseProducer> producers, GraphDistanceResolver graphDistanceResolver, IClock clock)
     {
         Name = community.Name;
         _consumers = consumers;
@@ -37,13 +41,33 @@ public class Community
     }
 
 
-    public void StartBalancingProcess()
+    public void StartBalancingProcess(bool isSequential = false)
     {
         while (IsActive)
+        {
+            Log.Information($"{Name}: Starting balancing process for Time {_clock.Time}");
             if (HasPowerAvailable)
                 RemoveUnneededBoughtEnergy();
             else
                 GetPowerFromDifferentCommunity();
+
+            IsDone = true;
+            Log.Information($"{Name}:Waiting for other communities to finish");
+            while (IsDone)
+            {
+                if (isSequential)
+                {
+                    return;
+                }
+
+                Thread.Sleep(500);
+            }
+        }
+    }
+
+    public void SetUnDone()
+    {
+        IsDone = false;
     }
 
     private void GetPowerFromDifferentCommunity()
@@ -55,6 +79,7 @@ public class Community
             {
                 continue;
             }
+
             Monitor.Enter(community);
             var receipt = community.BuyPower(this, PowerNeeded);
             if (receipt != null)

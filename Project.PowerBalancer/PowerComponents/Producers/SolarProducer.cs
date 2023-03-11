@@ -1,12 +1,14 @@
 ﻿using Project.PowerBalancer.BaseClasses;
+using Project.PowerBalancer.Interfaces;
+using Project.PowerBalancer.Modules.Clocks;
 
 namespace Project.PowerBalancer.PowerComponents.Producers;
 
 public class SolarProducer : BaseProducer
 {
-    private readonly Clock _clock;
+    private readonly IClock _clock;
 
-    public SolarProducer(double maxPowerProduction, Clock clock) : base(maxPowerProduction)
+    public SolarProducer(double maxPowerProduction, IClock clock) : base(maxPowerProduction)
     {
         _clock = clock;
     }
@@ -28,6 +30,6 @@ public class SolarProducer : BaseProducer
 
     public override double GetPowerProduction()
     {
-        return MaxPowerProduction * GetSunlightExposure(_clock._time);
+        return MaxPowerProduction * GetSunlightExposure(_clock.Time);
     }
 }

@@ -10,4 +10,9 @@
       <ProjectReference Include="..\Project.Util\Project.Util.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Serilog" Version="3.0.0-dev-01921" />
+      <PackageReference Include="Serilog.Sinks.Console" Version="4.1.1-dev-00907" />
+    </ItemGroup>
+
 </Project>
