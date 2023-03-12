@@ -29,11 +29,26 @@ public class Community
     public IList<Tuple<string, double>> PowerSoldReport => _powerSold.Select(s => new Tuple<string, double>(s.Key.Name, s.Value)).ToList();
     public bool IsDone { get; private set; }
 
-    public Community(ImportCommunity community, IList<BaseConsumer> consumers, IList<BaseProducer> producers, GraphDistanceResolver graphDistanceResolver, IClock clock)
+    public Community(ImportCommunity community, IList<BaseConsumer>? consumers, IList<BaseProducer>? producers, GraphDistanceResolver graphDistanceResolver, IClock clock)
     {
         Name = community.Name;
-        _consumers = consumers;
-        _producers = producers;
+        if (consumers == null)
+        {
+            _consumers = new List<BaseConsumer>();
+        }
+        else
+        {
+            _consumers = consumers;
+        }
+        
+        if (_producers == null)
+        {
+            _producers = new List<BaseProducer>();
+        }
+        else
+        {
+            _producers = producers;
+        }
         _clock = clock;
         _graphDistanceResolver = graphDistanceResolver;
         _distances = _graphDistanceResolver.GetDistancesFromSource(Name);
