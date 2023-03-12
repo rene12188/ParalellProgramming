@@ -12,7 +12,7 @@ long  StartBalancingConcurrent(string s)
 {
     var communities = JsonConvert.DeserializeObject<List<ImportCommunity>>(s).OrderBy(s => s.Name).ToList();
     var clock = new WaitingClock(new PowerBalancingMediator(), 40000, 40010);
-    var powerBalancerEngine1 = new PowerBalancerEngine(communities, new FictitiousPowerSystemConfig(clock), clock);
+    var powerBalancerEngine1 = new PowerBalancerEngine(communities, new RealisticPowerSystemConfig(clock), clock);
     return powerBalancerEngine1.StartConcurrent();
 }
 
@@ -20,14 +20,14 @@ long  StartBalancingSequential(string s)
 {
     var communities = JsonConvert.DeserializeObject<List<ImportCommunity>>(s);
     var clock = new WaitingClock(new PowerBalancingMediator(), 40000, 40010);
-    var powerBalancerEngine1 = new PowerBalancerEngine(communities!, new FictitiousPowerSystemConfig(clock), clock);
+    var powerBalancerEngine1 = new PowerBalancerEngine(communities!, new RealisticPowerSystemConfig(clock), clock);
     return powerBalancerEngine1.StartSequential();
 }
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
-var data = File.ReadAllText("./communitiesFictitious.json");
+var data = File.ReadAllText("./communities.json");
 
 var concurrent = StartBalancingConcurrent(data);
 var sequential =StartBalancingSequential(data);

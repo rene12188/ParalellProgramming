@@ -24,8 +24,4 @@
       <ProjectReference Include="..\Project.PowerBalancer\Project.PowerBalancer.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Models" />
-    </ItemGroup>
-
 </Project>

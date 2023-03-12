@@ -27,20 +27,20 @@ public class RealisticPowerSystemConfig : BasePowerSystemConfig
 
         Log.Information($"Total Consumption {Consumers.Sum(s => s.Value.Sum(m => m.GetPowerConsumption()))} kwh per Second");
 
-        Producers.Add("Bruck-Mürzzuschlag", new List<BaseProducer> { new ConstantProducer(33.8) });
+        Producers.Add("Bruck-Mürzzuschlag", new List<BaseProducer> { new ConstantProducer(33.8*1.2) });
         Producers.Add("Deutschlandsberg", new List<BaseProducer> { new ConstantProducer(1.4) });
         Producers.Add("Graz", new List<BaseProducer> { new ConstantProducer(20.3) });
-        Producers.Add("Graz-Umgebung", new List<BaseProducer> { new ConstantProducer(18.5), new SolarProducer(1.2, timeClock) });
+        Producers.Add("Graz-Umgebung", new List<BaseProducer> { new ConstantProducer(18.5*1.2), new SolarProducer(1.2, timeClock) });
         Producers.Add("Hartberg-Fürstenfel", new List<BaseProducer> { new ConstantProducer(1.2), new SolarProducer(0.4, timeClock) });
         Producers.Add("Leibnitz", new List<BaseProducer> { new ConstantProducer(4.4), new SolarProducer(0.5, timeClock) });
-        Producers.Add("Leoben", new List<BaseProducer> { new ConstantProducer(1.2) });
-        Producers.Add("Liezen", new List<BaseProducer> { new ConstantProducer(12) });
+        Producers.Add("Leoben", new List<BaseProducer> { new ConstantProducer(1.2*1.2) });
+        Producers.Add("Liezen", new List<BaseProducer> { new ConstantProducer(12*1.2) });
         Producers.Add("Murau", new List<BaseProducer> { new ConstantProducer(1) });
         Producers.Add("Murtal", new List<BaseProducer> { new ConstantProducer(0.5), new SolarProducer(0.2, timeClock) });
         Producers.Add("Südoststeiermark", new List<BaseProducer> { new ConstantProducer(0.5) });
         Producers.Add("Voitsberg", new List<BaseProducer> { new ConstantProducer(0.8) });
         Producers.Add("Weiz", new List<BaseProducer> { new ConstantProducer(6.0), new SolarProducer(0.2, timeClock) });
-        Producers.Add("External", new List<BaseProducer> { new ConstantProducer(100) });
+        Producers.Add("External", new List<BaseProducer> { new ConstantProducer(300) });
         Log.Information($"Total Consumption {Producers.Sum(s => s.Value.Sum(m => m.MaxPowerProduction))} kwh per Second");
     }
 }

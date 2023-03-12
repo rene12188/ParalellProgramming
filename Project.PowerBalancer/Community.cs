@@ -12,19 +12,16 @@ public class Community
     private readonly IList<BaseProducer> _producers;
     private readonly IList<BaseConsumer> _consumers;
     private readonly IClock _clock;
-
     private readonly GraphDistanceResolver _graphDistanceResolver;
     public bool IsActive = true;
-
-
     private double PowerAvailable => Math.Max(0, GetCurrentPower());
     private double PowerNeeded => Math.Min(0, GetCurrentPower());
     public double CurrentPower => GetCurrentPower();
+    public double CurrentLocalPower => GetCurrentLocalPower();
     private bool HasPowerAvailable => CurrentPower > 0;
-    private ConcurrentDictionary<Community, double> _powerBought = new();
-    private ConcurrentDictionary<Community, double> _powerSold = new();
-    private Dictionary<string, double> _distances;
-
+    private readonly ConcurrentDictionary<Community, double> _powerBought = new();
+    private readonly ConcurrentDictionary<Community, double> _powerSold = new();
+    private readonly Dictionary<string, double> _distances;
     public IList<Tuple<string, double>> PowerBoughtReport => _powerBought.Select(s => new Tuple<string, double>(s.Key.Name, s.Value)).ToList();
     public IList<Tuple<string, double>> PowerSoldReport => _powerSold.Select(s => new Tuple<string, double>(s.Key.Name, s.Value)).ToList();
     public bool IsDone { get; private set; }
@@ -41,7 +38,7 @@ public class Community
             _consumers = consumers;
         }
         
-        if (_producers == null)
+        if (producers == null)
         {
             _producers = new List<BaseProducer>();
         }
@@ -86,16 +83,15 @@ public class Community
         for (int i = 0; i < _distances.Count() && PowerNeeded < 0; i++)
         {
             var community = _graphDistanceResolver.GetCommunity(_distances.ElementAt(i).Key);
-            if (community == null) continue;
+            if (community == null || !community.HasPowerAvailable) continue;
 
             Monitor.Enter(community);
             var receipt = community.BuyPower(this, PowerNeeded);
-            if (receipt != null)
+            if (receipt != null && receipt.Value.Value > 0)
             {
-                _powerBought.TryRemove(receipt.Value.Key, out var _);
+                _powerBought.Remove(receipt.Value.Key, out var _);
                 _powerBought.TryAdd(receipt.Value.Key, receipt.Value.Value);
             }
-
             Monitor.Exit(community);
         }
     }
@@ -116,8 +112,13 @@ public class Community
 
     private double GetCurrentPower()
     {
-        var result = _producers.Sum(c => c.GetPowerProduction()) - _consumers.Sum(p => p.GetPowerConsumption()) + _powerBought.Sum(s => s.Value) - _powerSold.Sum(s => s.Value);
+        var result = GetCurrentLocalPower() + _powerBought.Sum(s => s.Value);
         return result;
+    }
+
+    private double GetCurrentLocalPower()
+    {
+        return _producers.Sum(c => c.GetPowerProduction()) - _consumers.Sum(p => p.GetPowerConsumption())  - _powerSold.Sum(s => s.Value);
     }
 
 
@@ -130,11 +131,10 @@ public class Community
 
         _powerSold.TryRemove(community, out var powerAvailable);
 
-
-        if (amount > PowerAvailable)
+        if (amount >CurrentLocalPower)
         {
-            _powerSold.TryAdd(community, PowerAvailable);
-            return new KeyValuePair<Community, double>(this, PowerAvailable);
+            _powerSold.TryAdd(community, CurrentLocalPower);
+            return new KeyValuePair<Community, double>(this, CurrentLocalPower);
         }
 
         _powerSold.TryAdd(community, amount);
