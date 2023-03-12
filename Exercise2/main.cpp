@@ -1,12 +1,13 @@
 ﻿#include "pch.h"
 
+#include <complex.h>
 #include <iostream>
 #include <omp.h>
 #include <SFML/Graphics.hpp>
 
-const int WIDTH = 1024;
-const int HEIGHT = 1024;
-const int MAX_ITERATIONS = 500;
+const int WIDTH = 1000;
+const int HEIGHT = 1000;
+const int MAX_ITERATIONS = 1000;
 
 const double xmin = -2.0;
 const double xmax = 1.0;
@@ -23,7 +24,7 @@ std::pair<double, double> mapPixel(int x, int y)
 
 int main()
 {
-	omp_set_num_threads(10);
+	omp_set_num_threads(omp_get_max_threads());
 	// Create the window
 	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Mandelbrot Set");
 
@@ -49,60 +50,69 @@ int main()
 			}
 		}
 
+		auto start = std::chrono::high_resolution_clock::now();
+#pragma omp parallel
+		{
+#pragma omp for
 		// Draw the Mandelbrot set
 		for (int x = 0; x < WIDTH; ++x)
 		{
-
-			for (int y = 0; y < HEIGHT; ++y)
-			{
-
-				auto mappedPixel = mapPixel(x, y);
-				double real = mappedPixel.first;
-				double imag = mappedPixel.second;
-
-				// Initialize the complex number
-				double z_real = real;
-				double z_imag = imag;
-
-				// Iterate the complex number until it escapes or max iterations are reached
-				int iterations = 0;
-				while (z_real * z_real + z_imag * z_imag <= 4 && iterations < MAX_ITERATIONS)
+				for (int y = 0; y < HEIGHT; ++y)
 				{
-					double z_real_new = z_real * z_real - z_imag * z_imag + real;
-					double z_imag_new = 2 * z_real * z_imag + imag;
-					z_real = z_real_new;
-					z_imag = z_imag_new;
-					++iterations;
-				}
+					auto mappedPixel = mapPixel(x, y);
+					double real = mappedPixel.first;
+					double imag = mappedPixel.second;
 
-				// Set the pixel color based on the number of iterations
-				if (iterations == MAX_ITERATIONS)
-				{
-					image.setPixel(x, y, sf::Color::Black);
-				}
-				else
-				{
-					float t = (float)iterations / MAX_ITERATIONS;
-					int r = (int)(9 * (1 - t) * t * t * t * 255);
-					int g = (int)(15 * (1 - t) * (1 - t) * t * t * 255);
-					int b = (int)(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255);
-					image.setPixel(x, y, sf::Color(r, g, b));
-				}
-				// Update the texture and sprite
+					// Initialize the complex number
+					double z_real = real;
+					double z_imag = imag;
 
+					// Iterate the complex number until it escapes or max iterations are reached
+					int iterations = 0;
+					while (z_real * z_real + z_imag * z_imag <= 4 && iterations < MAX_ITERATIONS)
+					{
+						double z_real_new = z_real * z_real - z_imag * z_imag + real;
+						double z_imag_new = 2 * z_real * z_imag + imag;
+						z_real = z_real_new;
+						z_imag = z_imag_new;
+						++iterations;
+					}
 
+					// Set the pixel color based on the number of iterations
+					if (iterations == MAX_ITERATIONS)
+					{
+						image.setPixel(x, y, sf::Color::Black);
+					}
+					else
+					{
+						float t = (float)iterations / MAX_ITERATIONS;
+						int r = (int)(9 * (1 - t) * t * t * t * 255);
+						int g = (int)(15 * (1 - t) * (1 - t) * t * t * 255);
+						int b = (int)(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255);
+						image.setPixel(x, y, sf::Color(r, g, b));
+					}
+					// Update the texture and sprite
+
+					// _sleep(10);
+					//texture.update(image);
+					//window.draw(sprite);
+					//window.display();
+				}
+				
 			}
 
-
-			_sleep(10);
-			texture.update(image);
-			window.draw(sprite);
-			window.display();
 		}
+
+		auto end = std::chrono::high_resolution_clock::now();
+
+		auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds> (end - start);
 
 		texture.update(image);
 		window.draw(sprite);
 		window.display();
+
+		std::cout << "elapsed milliseconds: " << milliseconds.count() << std::endl;
+		break;
 	}
 
 	return 0;

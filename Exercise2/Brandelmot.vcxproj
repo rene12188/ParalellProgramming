@@ -78,6 +78,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\SFML-2.5.1\include;%(AdditionalIncludeDirectories);.\SFML-2.5.1\include\SFML</AdditionalIncludeDirectories>
       <AdditionalModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </AdditionalModuleDependencies>
+      <OpenMPSupport Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -100,6 +101,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\SFML-2.5.1\include;%(AdditionalIncludeDirectories);.\SFML-2.5.1\include\SFML</AdditionalIncludeDirectories>
       <AdditionalModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </AdditionalModuleDependencies>
+      <OpenMPSupport Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
