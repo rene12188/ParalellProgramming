@@ -38,6 +38,7 @@ public class GraphDistanceResolver
             dict.Remove(from);
             return dict;
         }
+
         throw new ArgumentException("No Node Found");
     }
 

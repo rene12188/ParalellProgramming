@@ -1,6 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using System.Security.Cryptography;
 using Newtonsoft.Json;
 using Project.DataGenerator;
 using Project.Util.DataGenerator;
@@ -17,13 +16,9 @@ double GetPseudoDoubleWithinRange(double lowerBound, double upperBound)
 void GenerateEdges(int i1, ImportCommunity importCommunity)
 {
     for (int j = 0; j < 10; j++)
-    {
         if (i1 - j != i1)
-        {
             if (i1 - j >= 0)
-                importCommunity.Edges.Add(new ImportEdge($"C{i1}", $"C{i1 - j}", GetPseudoDoubleWithinRange(0.1 , 5.0)));
-        }
-    }
+                importCommunity.Edges.Add(new ImportEdge($"C{i1}", $"C{i1 - j}", GetPseudoDoubleWithinRange(0.1, 5.0)));
 }
 
 IList<ImportCommunity> CreateDenseCommunities()

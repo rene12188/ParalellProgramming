@@ -39,10 +39,7 @@ public class PowerBalancingMediator
         {
             Log.Information(community.Name);
             Log.Information($"Current power: {community.CurrentPower}");
-            foreach (var powerBought in community.PowerBoughtReport)
-            {
-                Log.Information($"Power bought from {powerBought.Item1}: {powerBought.Item2}");
-            }
+            foreach (var powerBought in community.PowerBoughtReport) Log.Information($"Power bought from {powerBought.Item1}: {powerBought.Item2}");
             foreach (var powerSold in community.PowerSoldReport) Log.Information($"Power sold to {powerSold.Item1}: {powerSold.Item2}");
         }
     }
