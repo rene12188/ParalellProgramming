@@ -58,7 +58,7 @@ int main()
         auto start = std::chrono::high_resolution_clock::now();
 
 
-        const double VIEW_SHIFT = -0.2 * (xmax - xmin);
+        const double VIEW_SHIFT = 0.5 * (xmax - xmin);
         // Zoom into the set
         zoom *= zoomFactor;
         double xmin_zoomed = (xmin + VIEW_SHIFT) * zoom;
