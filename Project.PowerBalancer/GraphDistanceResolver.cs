@@ -38,9 +38,7 @@ public class GraphDistanceResolver
             dict.Remove(from);
             return dict;
         }
-
-
-        throw new ArgumentException("No  Node Found");
+        throw new ArgumentException("No Node Found");
     }
 
     public void SetCommunities(IList<Community> communities)
