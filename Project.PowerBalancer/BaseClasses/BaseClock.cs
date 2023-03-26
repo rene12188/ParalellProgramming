@@ -4,7 +4,7 @@ namespace Project.PowerBalancer.BaseClasses;
 
 public abstract class BaseClock : IClock
 {
-    private bool _isActive = true;
+    protected bool _isActive = true;
     public int Time { get; protected set; }
     public abstract void Start();
 
@@ -12,6 +12,8 @@ public abstract class BaseClock : IClock
     {
         _isActive = false;
     }
+
+    public bool IsActive => _isActive;
 
     protected void Tick()
     {

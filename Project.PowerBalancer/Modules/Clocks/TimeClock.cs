@@ -6,8 +6,6 @@ public class TimeClock : BaseClock
 {
     private readonly int _sleepTime;
 
-    private bool _isActive = true;
-
     public TimeClock(int sleepTime)
     {
         _sleepTime = sleepTime;
