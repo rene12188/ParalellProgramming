@@ -72,7 +72,7 @@ public class Community
 
     private void GetPowerFromDifferentCommunity()
     {
-        for (int i = 0; i < _distances.Count() && PowerNeeded < 0; i++)
+        for (int i = 0; i < _distances.Count && PowerNeeded < 0; i++)
         {
             var community = _graphDistanceResolver.GetCommunity(_distances.ElementAt(i).Key);
             if (community == null || !community.HasPowerAvailable) continue;
