@@ -28,11 +28,11 @@ namespace Project.PowerBalancer.Modules.Reporter
                     });
                 }
 
-                foreach (var boughtReceipt in item.PowerSoldReport)
+                foreach (var soldReceipt in item.PowerSoldReport)
                 {
                     newRecord.sold.Add(new TransactionRecord()
                     {
-                        name = boughtReceipt.Item1, amount = boughtReceipt.Item2
+                        name = soldReceipt.Item1, amount = soldReceipt.Item2
                     });
                 }
                 
