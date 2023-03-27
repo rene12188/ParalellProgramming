@@ -25,7 +25,7 @@ public class RealisticPowerSystemConfig : BasePowerSystemConfig
         Consumers.Add("Weiz", new List<BaseConsumer> { new ConstantConsumer(9000 * 0.000019) });
         Consumers.Add("External", new List<BaseConsumer>());
 
-        Log.Information($"Total Consumption {Consumers.Sum(s => s.Value.Sum(m => m.GetPowerConsumption()))} kwh per Second");
+        Log.Debug($"Total Consumption {Consumers.Sum(s => s.Value.Sum(m => m.GetPowerConsumption()))} kwh per Second");
 
         Producers.Add("Bruck-Mürzzuschlag", new List<BaseProducer> { new ConstantProducer(33.8 * 1.2) });
         Producers.Add("Deutschlandsberg", new List<BaseProducer> { new ConstantProducer(1.4) });
@@ -41,6 +41,6 @@ public class RealisticPowerSystemConfig : BasePowerSystemConfig
         Producers.Add("Voitsberg", new List<BaseProducer> { new ConstantProducer(0.8) });
         Producers.Add("Weiz", new List<BaseProducer> { new ConstantProducer(6.0), new SolarProducer(0.2, timeClock) });
         Producers.Add("External", new List<BaseProducer> { new ConstantProducer(300) });
-        Log.Information($"Total Consumption {Producers.Sum(s => s.Value.Sum(m => m.MaxPowerProduction))} kwh per Second");
+        Log.Debug($"Total Consumption {Producers.Sum(s => s.Value.Sum(m => m.MaxPowerProduction))} kwh per Second");
     }
 }

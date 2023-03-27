@@ -67,7 +67,6 @@ public class PowerBalancerEngine
 
         while (_waitingClock.IsActive)
         {
-            Thread.Sleep(1000);
             foreach (var community in _communities) community.StartBalancingProcess(true);
         }
 
