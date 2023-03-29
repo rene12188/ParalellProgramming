@@ -5,7 +5,7 @@ namespace Project.PowerBalancer.Modules.Reporter;
 
 public class JsonReporter : IReporter
 {
-    private List<Record> records = new();
+    private readonly List<Record> _records = new();
 
     public void Report(IList<Community> communities)
     {
@@ -25,7 +25,7 @@ public class JsonReporter : IReporter
                 {
                     name = soldReceipt.Item1, amount = soldReceipt.Item2
                 });
-            records.Add(newRecord);
+            _records.Add(newRecord);
         }
     }
 
@@ -33,7 +33,7 @@ public class JsonReporter : IReporter
     {
         Report(communities);
 
-        ExportToJson(records, "./records.json");
+        ExportToJson(_records, "./records.json");
     }
 
     public void ExportToJson(List<Record> records, string filePath)
