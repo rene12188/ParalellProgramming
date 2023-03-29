@@ -1,4 +1,5 @@
 ﻿using Project.PowerBalancer.Interfaces;
+using Project.PowerBalancer.Modules.Reporter;
 using Serilog;
 
 namespace Project.PowerBalancer;
@@ -6,12 +7,8 @@ namespace Project.PowerBalancer;
 public class PowerBalancingMediator
 {
     private readonly IList<Community> _communities = new List<Community>();
-    private readonly IList<IReporter> _reporters = new List<IReporter>();
+    private readonly JsonReporter _reporter = new JsonReporter();
 
-    public void AddReporter(IReporter reporter)
-    {
-        _reporters.Add(reporter);
-    }
 
 
     public bool IsAllDone => _communities.All(c => c.IsDone);
@@ -19,6 +16,7 @@ public class PowerBalancingMediator
 
     public void StartNextCycle()
     {
+        _reporter.Report(_communities);
         foreach (var community in _communities) community.SetUnDone();
     }
 
@@ -29,7 +27,8 @@ public class PowerBalancingMediator
 
     public void StopSimulation()
     {
-        Visualize();
+        Visualize(); //bei jedem mediator reporten & finishreport
+        _reporter.FlushReport(_communities);
         foreach (var community in _communities) community.IsActive = false;
     }
 
