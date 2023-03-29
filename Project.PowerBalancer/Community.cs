@@ -59,8 +59,7 @@ public class Community
             while (IsDone)
             {
                 if (isSequential) return;
-
-                Thread.Sleep(500);
+                Thread.Sleep(100);
             }
         }
     }

@@ -49,6 +49,7 @@ public class PowerBalancerEngine
 
         while (_waitingClock.IsActive)
         {
+            Thread.Sleep(100);
         }
 
         stopwatch.Stop();
