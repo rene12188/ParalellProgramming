@@ -22,12 +22,14 @@ public class GraphDistanceResolver
     public void FloydWarshall()
     {
         // loop through all pairs of nodes and update the shortest path between them
-        foreach (string k in _adjacencyMatrix.Keys)
-        foreach (string i in _adjacencyMatrix.Keys)
-        foreach (string j in _adjacencyMatrix.Keys)
-            if (_adjacencyMatrix[i].ContainsKey(k) && _adjacencyMatrix[k].ContainsKey(j) &&
-                (!_adjacencyMatrix[i].ContainsKey(j) || _adjacencyMatrix[i][j] > _adjacencyMatrix[i][k] + _adjacencyMatrix[k][j]))
-                _adjacencyMatrix[i][j] = _adjacencyMatrix[i][k] + _adjacencyMatrix[k][j];
+        Parallel.ForEach(_adjacencyMatrix.Keys, k =>
+        {
+            foreach (string i in _adjacencyMatrix.Keys)
+            foreach (string j in _adjacencyMatrix.Keys)
+                if (_adjacencyMatrix[i].ContainsKey(k) && _adjacencyMatrix[k].ContainsKey(j) &&
+                    (!_adjacencyMatrix[i].ContainsKey(j) || _adjacencyMatrix[i][j] > _adjacencyMatrix[i][k] + _adjacencyMatrix[k][j]))
+                    _adjacencyMatrix[i][j] = _adjacencyMatrix[i][k] + _adjacencyMatrix[k][j];
+        });
     }
 
     public Dictionary<string, double> GetDistancesFromSource(string from)

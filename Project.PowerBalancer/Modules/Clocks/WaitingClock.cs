@@ -43,7 +43,7 @@ public class WaitingClock : BaseClock
                 Mediator.StartNextCycle();
             }
 
-            Thread.Sleep(500);
+            Thread.Sleep(10);
         }
     }
 }

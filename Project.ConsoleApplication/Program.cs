@@ -27,7 +27,7 @@ long StartBalancingSequential(string s)
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
-var data = File.ReadAllText("./communitiesFictitious.json");
+var data = File.ReadAllText("./communitiesFictitious2.json");
 
 var concurrent = StartBalancingConcurrent(data);
 var sequential = StartBalancingSequential(data);

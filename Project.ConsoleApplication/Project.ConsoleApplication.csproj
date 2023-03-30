@@ -14,14 +14,17 @@
       <None Update="communitiesFictitious.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.3-beta1" />
+      <None Update="communitiesFictitious2.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Project.PowerBalancer\Project.PowerBalancer.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
 </Project>

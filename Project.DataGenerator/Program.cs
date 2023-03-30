@@ -24,7 +24,7 @@ void GenerateEdges(int i1, ImportCommunity importCommunity)
 IList<ImportCommunity> CreateDenseCommunities()
 {
     var communities = new List<ImportCommunity>();
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 1000; i++)
     {
         var newCommunity = new ImportCommunity($"C{i}");
         GenerateEdges(i, newCommunity);
