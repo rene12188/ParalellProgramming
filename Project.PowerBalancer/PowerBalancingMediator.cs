@@ -8,6 +8,7 @@ public class PowerBalancingMediator
 {
     private readonly IList<Community> _communities = new List<Community>();
     private readonly JsonReporter _reporter = new JsonReporter();
+    public ManualResetEvent _communityDoneResetEvent;
 
 
 
@@ -18,6 +19,9 @@ public class PowerBalancingMediator
     {
         _reporter.Report(_communities);
         foreach (var community in _communities) community.SetUnDone();
+        _communityDoneResetEvent.Set();
+        _communityDoneResetEvent.Reset();
+
     }
 
     public void AddCommunity(Community community)
@@ -27,7 +31,7 @@ public class PowerBalancingMediator
 
     public void StopSimulation()
     {
-        Visualize(); //bei jedem mediator reporten & finishreport
+        Visualize();
         _reporter.FlushReport(_communities);
         foreach (var community in _communities) community.IsActive = false;
     }

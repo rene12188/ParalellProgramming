@@ -25,8 +25,9 @@ public class Community
     public IList<Tuple<string, double>> PowerBoughtReport => _powerBought.Select(s => new Tuple<string, double>(s.Key.Name, s.Value)).ToList();
     public IList<Tuple<string, double>> PowerSoldReport => _powerSold.Select(s => new Tuple<string, double>(s.Key.Name, s.Value)).ToList();
     public bool IsDone { get; private set; }
+    ManualResetEvent _communityDoneManualResetEvent ;
 
-    public Community(ImportCommunity community, IList<BaseConsumer>? consumers, IList<BaseProducer>? producers, GraphDistanceResolver graphDistanceResolver, IClock clock)
+    public Community(ImportCommunity community, IList<BaseConsumer>? consumers, IList<BaseProducer>? producers, GraphDistanceResolver graphDistanceResolver, IClock clock, ManualResetEvent communityDoneManualResetEvent)
     {
         Name = community.Name;
         if (consumers == null)
@@ -39,6 +40,7 @@ public class Community
         else
             _producers = producers;
         _clock = clock;
+        _communityDoneManualResetEvent = communityDoneManualResetEvent;
         _graphDistanceResolver = graphDistanceResolver;
         _distances = _graphDistanceResolver.GetDistancesFromSource(Name);
     }
@@ -56,10 +58,10 @@ public class Community
 
             IsDone = true;
             Log.Information($"{Name}:Waiting for other communities to finish");
-            while (IsDone)
+            if (isSequential) return;
+            if (IsDone)
             {
-                if (isSequential) return;
-                Thread.Sleep(1);
+                _communityDoneManualResetEvent.WaitOne();
             }
         }
     }

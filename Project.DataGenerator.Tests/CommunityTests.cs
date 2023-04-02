@@ -25,12 +25,12 @@ public class CommunityTests
         var graphDistanceResolver = new GraphDistanceResolver(importCommunity);
 
         var seller = new Community(new ImportCommunity("Seller"), new List<BaseConsumer>(), new List<BaseProducer> { new ConstantProducer(100) }, graphDistanceResolver,
-            new TimeClock(1000));
+            new TimeClock(1000), null);
         var buyer = new Community(
             new ImportCommunity("Buyer"),
             new List<BaseConsumer> { new ConstantConsumer(100) },
             new List<BaseProducer>(), graphDistanceResolver,
-            new TimeClock(1000));
+            new TimeClock(1000),null);
         graphDistanceResolver.SetCommunities(new List<Community> { seller, buyer });
 
         //Act

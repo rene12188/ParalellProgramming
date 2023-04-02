@@ -23,11 +23,12 @@ public class PowerBalancerEngine
         _waitingClock = waitingClock;
         PowerBalancingMediator = waitingClock.Mediator;
         _graphDistanceResolver = new GraphDistanceResolver(importCommunities);
+        waitingClock.Mediator._communityDoneResetEvent = new ManualResetEvent(false);
 
         foreach (var importCommunity in importCommunities)
         {
             var newCommunity = new Community(importCommunity, powerSystemConfig.GetConsumer(importCommunity.Name), powerSystemConfig.GetProducer(importCommunity.Name),
-                _graphDistanceResolver, waitingClock);
+                _graphDistanceResolver, waitingClock, waitingClock.Mediator._communityDoneResetEvent);
             _communities.Add(newCommunity);
             waitingClock.Mediator.AddCommunity(newCommunity);
         }
@@ -35,7 +36,7 @@ public class PowerBalancerEngine
         _graphDistanceResolver.SetCommunities(_communities);
     }
 
-    public long StartConcurrent()
+    public long StartParallel()
     {
         var stopwatch = new Stopwatch();
         stopwatch.Start();

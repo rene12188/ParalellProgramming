@@ -8,12 +8,12 @@ using Project.PowerBalancer.Modules.PowerSystemConfig;
 using Project.Util.Models.Import;
 using Serilog;
 
-long StartBalancingConcurrent(string s)
+long StartBalancingParallel(string s)
 {
     var communities = JsonConvert.DeserializeObject<List<ImportCommunity>>(s).OrderBy(s => s.Name).ToList();
     var clock = new WaitingClock(new PowerBalancingMediator(), 40000, 40010);
     var powerBalancerEngine1 = new PowerBalancerEngine(communities, new FictitiousPowerSystemConfig(clock), clock);
-    return powerBalancerEngine1.StartConcurrent();
+    return powerBalancerEngine1.StartParallel();
 }
 
 long StartBalancingSequential(string s)
@@ -29,6 +29,6 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 var data = File.ReadAllText("./communitiesFictitious2.json");
 
-var concurrent = StartBalancingConcurrent(data);
+var concurrent = StartBalancingParallel(data);
 var sequential = StartBalancingSequential(data);
 Log.Warning($"Sequential: {sequential}ms vs Concurrent: {concurrent}ms");

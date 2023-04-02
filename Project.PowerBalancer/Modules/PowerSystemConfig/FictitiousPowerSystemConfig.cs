@@ -17,7 +17,7 @@ public class FictitiousPowerSystemConfig : BasePowerSystemConfig
 
     public FictitiousPowerSystemConfig(IClock timeClock)
     {
-        for (int i = 0; i < 10000; i++)
+        for (int i = 0; i < 1000; i++)
         {
             Consumers.Add($"C{i}", new List<BaseConsumer> { new ConstantConsumer(GetPseudoDoubleWithinRange(10, 500)) });
             if (i % 10 == 0)

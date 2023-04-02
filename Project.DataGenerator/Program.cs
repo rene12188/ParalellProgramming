@@ -47,4 +47,4 @@ var jsonRealString = JsonConvert.SerializeObject(dataGenerator.GetCommunities())
 var jsonFictitiousString = JsonConvert.SerializeObject(CreateDenseCommunities());
 
 File.WriteAllText("../../../../Project.ConsoleApplication/communities.json", jsonRealString);
-File.WriteAllText("../../../../Project.ConsoleApplication/communitiesFictitious.json", jsonFictitiousString);
+File.WriteAllText("../../../../Project.ConsoleApplication/communitiesFictitious2.json", jsonFictitiousString);
