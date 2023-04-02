@@ -14,13 +14,17 @@ public class PowerBalancerEngine
     private readonly GraphDistanceResolver _graphDistanceResolver;
     private readonly IList<Community> _communities = new List<Community>();
     private readonly PowerBalancingMediator PowerBalancingMediator;
-    public bool isActive { get; private set; } = true;
+    private readonly ManualResetEvent _simulationDoneResetEvent;
+    public bool IsActive { get; private set; } = true;
 
     public PowerBalancerEngine(IList<ImportCommunity> importCommunities, BasePowerSystemConfig powerSystemConfig, WaitingClock waitingClock)
     {
         if (importCommunities == null || powerSystemConfig == null) throw new ArgumentNullException("Parameter is null");
-
+       
+        
         _waitingClock = waitingClock;
+        _simulationDoneResetEvent = new ManualResetEvent(false);
+        _waitingClock.simulationDoneResetEvent = _simulationDoneResetEvent;
         PowerBalancingMediator = waitingClock.Mediator;
         _graphDistanceResolver = new GraphDistanceResolver(importCommunities);
         waitingClock.Mediator._communityDoneResetEvent = new ManualResetEvent(false);
@@ -49,11 +53,8 @@ public class PowerBalancerEngine
             newThread.Start();
             communityThreads.Add(newThread);
         }
-
-        while (_waitingClock.IsActive)
-        {
-            Thread.Sleep(100);
-        }
+        
+        _simulationDoneResetEvent.WaitOne();
 
         stopwatch.Stop();
         foreach (var thread in communityThreads) thread.Join();

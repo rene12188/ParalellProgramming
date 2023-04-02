@@ -7,6 +7,7 @@ public class WaitingClock : BaseClock
     private readonly int? _stopTime;
     public PowerBalancingMediator Mediator { get; }
     public bool IsActive { get; private set; } = true;
+    public ManualResetEvent simulationDoneResetEvent;
 
     public WaitingClock(PowerBalancingMediator mediator)
     {
@@ -34,9 +35,10 @@ public class WaitingClock : BaseClock
             if (Mediator.IsAllDone)
             {
                 Tick();
-                if (_stopTime.HasValue && Time > _stopTime.Value)
+                if (_stopTime.HasValue && Time >= _stopTime.Value)
                 {
                     Mediator.StopSimulation();
+                    simulationDoneResetEvent.Set();
                     IsActive = false;
                 }
 

@@ -19,17 +19,17 @@ public class FictitiousPowerSystemConfig : BasePowerSystemConfig
     {
         for (int i = 0; i < 1000; i++)
         {
-            Consumers.Add($"C{i}", new List<BaseConsumer> { new ConstantConsumer(GetPseudoDoubleWithinRange(10, 500)) });
+            Consumers.Add($"C{i}", new List<BaseConsumer> { new ConstantConsumer(250) });
             if (i % 10 == 0)
                 Producers.Add($"C{i}", new List<BaseProducer>
                 {
-                    new ConstantProducer(GetPseudoDoubleWithinRange(10, 50)),
-                    new SolarProducer(GetPseudoDoubleWithinRange(10, 500), timeClock)
+                    new ConstantProducer(500),
+                    new SolarProducer(700, timeClock)
                 });
             else
                 Producers.Add($"C{i}", new List<BaseProducer>
                 {
-                    new ConstantProducer(GetPseudoDoubleWithinRange(10, 500))
+                    new ConstantProducer(200)
                 });
         }
 

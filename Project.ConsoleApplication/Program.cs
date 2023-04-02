@@ -31,4 +31,4 @@ var data = File.ReadAllText("./communitiesFictitious2.json");
 
 var concurrent = StartBalancingParallel(data);
 var sequential = StartBalancingSequential(data);
-Log.Warning($"Sequential: {sequential}ms vs Concurrent: {concurrent}ms");
+Log.Warning($"Sequential: {sequential}ms vs Parallel: {concurrent}ms");
